@@ -12,6 +12,7 @@ export const actions = {};
  * */
 const initialState = {
   options: {
+    type: 'video',
     query: '',
     part: 'snippet',
     maxResults: '25',
