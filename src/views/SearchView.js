@@ -13,6 +13,34 @@ class SearchView extends React.Component {
     actions: PropTypes.object.isRequired
   };
 
+  componentWillMount () {
+    this.loadYoutubeApi();
+  }
+
+  loadYoutubeApi() {
+    const { actions, state } = this.props;
+    const script = document.createElement("script");
+    script.src = "https://apis.google.com/js/api.js";
+
+    script.onload = () => {
+      window.gapi.load('client', () => {
+        actions.initGoogleApiClient().then(() => {
+          actions.getPlaylist(state.videos.options);
+        });
+      });
+    };
+
+    document.body.appendChild(script);
+  }
+
+  initApp = () => {
+    const { state, actions } = this.props;
+
+    actions.initGoogleApiClient().then(() => {
+      actions.getPlaylist(state.videos.options);
+    });
+  };
+
   render() {
     const { state } = this.props;
     const { videos } = state;

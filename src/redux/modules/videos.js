@@ -1,11 +1,19 @@
+import YoutubeApi from '../../api/youtubeApi'
 /*
  * Constants
  * */
+export const GET_PLAYLIST = '@playlist / get list';
 
 /*
  * Actions
  * */
-export const actions = {};
+const getPlaylist = (options) =>  (dispatch) => {
+  YoutubeApi.search(options)
+};
+
+export const actions = {
+  getPlaylist
+};
 
 /*
  * State

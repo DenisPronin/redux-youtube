@@ -5,7 +5,18 @@
 /*
  * Actions
  * */
-export const actions = {};
+const initGoogleApiClient = () => (dispatch, getState) => {
+  const {apiKey, clientId} = getState().common.auth;
+  return window.gapi.client.init({
+    apiKey,
+    clientId,
+    scope: 'https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtubepartner'
+  });
+};
+
+export const actions = {
+  initGoogleApiClient
+};
 
 /*
  * State
