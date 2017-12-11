@@ -33,6 +33,13 @@ class SearchView extends React.Component {
     document.body.appendChild(script);
   }
 
+  selectVideo = (activeIndex) => {
+    const { state, actions } = this.props;
+    const video = state.videos.response.items[activeIndex];
+    actions.selectVideo(activeIndex);
+    actions.loadVideoComments(video.id.videoId);
+  };
+
   render () {
     const { state, actions } = this.props;
     const { videos } = state;
@@ -52,7 +59,7 @@ class SearchView extends React.Component {
 
         <Playlist
           data={videos.response}
-          selectVideo={actions.selectVideo}
+          selectVideo={this.selectVideo}
           loadNextPage={actions.loadPlaylistNextPage}
         />
       </div>
