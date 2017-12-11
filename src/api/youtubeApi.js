@@ -4,8 +4,6 @@ export default {
       method: 'GET',
       path: '/youtube/v3/search',
       params
-    }).then((response) => {
-      console.log(response);
-    });
+    }).then((response) => response.result);
   }
 }

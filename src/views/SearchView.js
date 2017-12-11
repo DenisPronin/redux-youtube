@@ -41,20 +41,26 @@ class SearchView extends React.Component {
     });
   };
 
-  render() {
-    const { state } = this.props;
+  render () {
+    const { state, actions } = this.props;
     const { videos } = state;
 
     return (
       <div>
         <SearchBar
-          query={videos.options.query}
+          query={videos.options.q}
+          changeQuery={actions.changeQuery}
+          search={actions.getPlaylist}
         />
 
-        <Video />
+        <Video
+          data={videos.response}
+          activeIndex={videos.activeIndex}
+        />
 
         <Playlist
-          items={[]}
+          data={videos.response}
+          selectVideo={actions.selectVideo}
         />
       </div>
     );
