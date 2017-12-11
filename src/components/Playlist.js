@@ -5,12 +5,13 @@ import PlaylistItem from "./PlaylistItem";
 export default class Playlist extends React.Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
-    selectVideo: PropTypes.func.isRequired
+    selectVideo: PropTypes.func.isRequired,
+    loadNextPage: PropTypes.func.isRequired
   };
 
   nextPage = () => {
-    const { data } = this.props;
-    console.log(data.nextPageToken);
+    const { loadNextPage, data } = this.props;
+    loadNextPage(data.nextPageToken);
   };
 
   render () {

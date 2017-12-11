@@ -2,37 +2,67 @@ import YoutubeApi from '../../api/youtubeApi'
 /*
  * Constants
  * */
-export const GET_PLAYLIST = '@playlist / get list';
-export const GET_PLAYLIST_PENDING = GET_PLAYLIST + ' pending';
-export const GET_PLAYLIST_FULFILLED = GET_PLAYLIST + ' fulfilled';
-export const CHANGE_QUERY = '@search / change query';
-export const SELECT_VIDEO = '@video / select video';
+const LOAD_PLAYLIST = '@playlist / get list';
+const LOAD_PLAYLIST_PENDING = LOAD_PLAYLIST + ' pending';
+const LOAD_PLAYLIST_FULFILLED = LOAD_PLAYLIST + ' fulfilled';
+
+const LOAD_PLAYLIST_NEXT_PAGE = '@playlist / get next page';
+const LOAD_PLAYLIST_NEXT_PAGE_PENDING = LOAD_PLAYLIST_NEXT_PAGE + ' pending';
+const LOAD_PLAYLIST_NEXT_PAGE_FULFILLED = LOAD_PLAYLIST_NEXT_PAGE + ' fulfilled';
+
+const CHANGE_QUERY = '@search / change query';
+const SELECT_VIDEO = '@video / select video';
 
 /*
  * Actions
  * */
-const getPlaylistPending = (isPending) => ({
-  type: GET_PLAYLIST_PENDING,
+const loadPlaylistPending = (isPending) => ({
+  type: LOAD_PLAYLIST_PENDING,
   isPending
 });
 
-const getPlaylistFulfilled = (response) => ({
-  type: GET_PLAYLIST_FULFILLED,
+const loadPlaylistFulfilled = (response) => ({
+  type: LOAD_PLAYLIST_FULFILLED,
   response
 });
 
-const getPlaylist = () =>  (dispatch, getState) => {
+const loadPlaylist = () =>  (dispatch, getState) => {
   const options = getState().videos.options;
 
-  dispatch(getPlaylistPending(true));
+  dispatch(loadPlaylistPending(true));
 
   YoutubeApi.search(options)
     .then((response) => {
-      dispatch(getPlaylistFulfilled(response));
-      dispatch(getPlaylistPending(false));
+      dispatch(loadPlaylistFulfilled(response));
+      dispatch(loadPlaylistPending(false));
     })
     .catch((error) => {
-      dispatch(getPlaylistPending(false));
+      dispatch(loadPlaylistPending(false));
+    })
+};
+
+const loadPlaylistNextPagePending = (isPending) => ({
+  type: LOAD_PLAYLIST_NEXT_PAGE_PENDING,
+  isPending
+});
+
+const loadPlaylistNextPageFulfilled = (response) => ({
+  type: LOAD_PLAYLIST_NEXT_PAGE_FULFILLED,
+  response
+});
+
+const loadPlaylistNextPage = (pageToken) =>  (dispatch, getState) => {
+  const options = getState().videos.options;
+
+  dispatch(loadPlaylistNextPagePending(true));
+
+  YoutubeApi.search({...options, pageToken})
+    .then((response) => {
+      dispatch(loadPlaylistNextPageFulfilled(response));
+      dispatch(loadPlaylistNextPagePending(false));
+    })
+    .catch((error) => {
+      dispatch(loadPlaylistNextPagePending(false));
     })
 };
 
@@ -47,7 +77,8 @@ const selectVideo = (index) => ({
 });
 
 export const actions = {
-  getPlaylist,
+  loadPlaylist,
+  loadPlaylistNextPage,
   changeQuery,
   selectVideo
 };
@@ -63,7 +94,8 @@ const initialState = {
     maxResults: '25',
     pageToken: ''
   },
-  isPending: '',
+  isPending: false,
+  isPendingNextPage: false,
   activeIndex: null,
   response: {}
 };
@@ -82,16 +114,36 @@ export default (state = initialState, action) => {
         }
       };
 
-    case GET_PLAYLIST_PENDING:
+    case LOAD_PLAYLIST_PENDING:
       return {
         ...state,
         isPending: action.isPending
       };
 
-    case GET_PLAYLIST_FULFILLED:
+    case LOAD_PLAYLIST_FULFILLED:
       return {
         ...state,
         response: action.response
+      };
+
+    case LOAD_PLAYLIST_NEXT_PAGE_PENDING:
+      return {
+        ...state,
+        isPendingNextPage: action.isPending
+      };
+
+    case LOAD_PLAYLIST_NEXT_PAGE_FULFILLED:
+      const oldResponse = state.response;
+      const newResponse = action.response;
+      const items = oldResponse.items.concat(newResponse.items);
+      return {
+        ...state,
+        response: {
+          ...oldResponse,
+          items,
+          nextPageToken: newResponse.nextPageToken,
+          prevPageToken: newResponse.prevPageToken
+        }
       };
 
     case SELECT_VIDEO:

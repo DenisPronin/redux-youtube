@@ -25,21 +25,13 @@ class SearchView extends React.Component {
     script.onload = () => {
       window.gapi.load('client', () => {
         actions.initGoogleApiClient().then(() => {
-          actions.getPlaylist();
+          actions.loadPlaylist();
         });
       });
     };
 
     document.body.appendChild(script);
   }
-
-  initApp = () => {
-    const { state, actions } = this.props;
-
-    actions.initGoogleApiClient().then(() => {
-      actions.getPlaylist(state.videos.options);
-    });
-  };
 
   render () {
     const { state, actions } = this.props;
@@ -50,7 +42,7 @@ class SearchView extends React.Component {
         <SearchBar
           query={videos.options.q}
           changeQuery={actions.changeQuery}
-          search={actions.getPlaylist}
+          search={actions.loadPlaylist}
         />
 
         <Video
@@ -61,6 +53,7 @@ class SearchView extends React.Component {
         <Playlist
           data={videos.response}
           selectVideo={actions.selectVideo}
+          loadNextPage={actions.loadPlaylistNextPage}
         />
       </div>
     );
