@@ -18,14 +18,14 @@ class SearchView extends React.Component {
   }
 
   loadYoutubeApi() {
-    const { actions, state } = this.props;
+    const { actions } = this.props;
     const script = document.createElement("script");
     script.src = "https://apis.google.com/js/api.js";
 
     script.onload = () => {
       window.gapi.load('client', () => {
         actions.initGoogleApiClient().then(() => {
-          actions.getPlaylist(state.videos.options);
+          actions.getPlaylist();
         });
       });
     };

@@ -8,6 +8,11 @@ export default class Playlist extends React.Component {
     selectVideo: PropTypes.func.isRequired
   };
 
+  nextPage = () => {
+    const { data } = this.props;
+    console.log(data.nextPageToken);
+  };
+
   render () {
     const { data, selectVideo } = this.props;
     if (!data.items) return null;
@@ -24,6 +29,11 @@ export default class Playlist extends React.Component {
             />
           )
         })}
+        {data.nextPageToken &&
+          <button type='button' onClick={this.nextPage}>
+            Next page
+          </button>
+        }
       </div>
     );
   }
