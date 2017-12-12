@@ -108,7 +108,7 @@ const initialState = {
     maxResults: '25',
     pageToken: ''
   },
-  isPending: false,
+  isPending: true,
   isPendingNextPage: false,
   activeVideoId: null,
   response: {}

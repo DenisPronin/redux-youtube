@@ -11,7 +11,7 @@ export default class Video extends React.Component {
     const { videoId } = this.props;
 
     return (
-      <div>
+      <div className='video'>
         <YouTube
           videoId={videoId}
         />

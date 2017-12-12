@@ -17,8 +17,10 @@
   justify-content: center;
 }
 
-.video-content {
+.video-content {}
 
+.video {
+  margin-bottom: 16px;
 }
 
 .playlist {
@@ -89,4 +91,48 @@
   overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.comment {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.comment__text {
+  font-size: 14px;
+}
+
+.comment__replies-btn {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+  padding: 0.7em 0.57em;
+  text-align: center;
+}
+
+.comment__replies-btn:hover {
+  font-weight: bold;
+}
+
+.comment__replies-btn i {
+  padding-left: 4px;
+}
+
+.author__avatar {
+  border-radius: 50%;
+  height: 28px;
+  margin-right: 16px;
+}
+
+.author__title {
+  color: rgb(17, 17, 17);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1.5;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  text-decoration: none;
 }

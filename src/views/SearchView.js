@@ -7,6 +7,7 @@ import SearchBar from '../components/SearchBar'
 import Playlist from "../components/Playlist";
 import Video from "../components/Video";
 import CommentsThreads from "../components/CommentsThreads";
+import Spinner from "../components/Spinner";
 
 class SearchView extends React.Component {
   static propTypes = {
@@ -52,8 +53,13 @@ class SearchView extends React.Component {
           search={actions.loadPlaylist}
         />
 
-        <div className='page-content'>
-          {activeVideoId &&
+        {videos.isPending &&
+          <Spinner size='5x' />
+        }
+
+        {!videos.isPending &&
+          <div className='page-content'>
+            {activeVideoId &&
             <div className='video-content'>
               <Video
                 videoId={activeVideoId}
@@ -66,15 +72,15 @@ class SearchView extends React.Component {
                 loadThreadsPage={actions.loadThreadsPage}
               />
             </div>
-          }
+            }
 
-          <Playlist
-            data={videos.response}
-            selectVideo={this.selectVideo}
-            loadNextPage={actions.loadPlaylistNextPage}
-          />
-
-        </div>
+            <Playlist
+              data={videos.response}
+              selectVideo={this.selectVideo}
+              loadNextPage={actions.loadPlaylistNextPage}
+            />
+          </div>
+        }
       </div>
     );
   }
