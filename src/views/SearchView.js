@@ -6,6 +6,7 @@ import { rootActions } from '../redux/root'
 import SearchBar from '../components/SearchBar'
 import Playlist from "../components/Playlist";
 import Video from "../components/Video";
+import CommentsThreads from "../components/CommentsThreads";
 
 class SearchView extends React.Component {
   static propTypes = {
@@ -37,12 +38,12 @@ class SearchView extends React.Component {
     const { state, actions } = this.props;
     const video = state.videos.response.items[activeIndex];
     actions.selectVideo(activeIndex);
-    actions.loadVideoComments(video.id.videoId);
+    actions.loadThreads(video.id.videoId);
   };
 
   render () {
     const { state, actions } = this.props;
-    const { videos } = state;
+    const { videos, comments } = state;
 
     return (
       <div>
@@ -55,6 +56,10 @@ class SearchView extends React.Component {
         <Video
           data={videos.response}
           activeIndex={videos.activeIndex}
+        />
+
+        <CommentsThreads
+          threads={comments.response}
         />
 
         <Playlist

@@ -3,40 +3,40 @@ import YoutubeApi from "../../api/youtubeApi";
 /*
  * Constants
  * */
-const LOAD_VIDEO_COMMENTS = '@video / get comments';
-const LOAD_VIDEO_COMMENTS_PENDING = LOAD_VIDEO_COMMENTS + ' pending';
-const LOAD_VIDEO_COMMENTS_FULFILLED = LOAD_VIDEO_COMMENTS + ' fulfilled';
+const LOAD_THREADS = '@video / get comments';
+const LOAD_THREADS_PENDING = LOAD_THREADS + ' pending';
+const LOAD_THREADS_FULFILLED = LOAD_THREADS + ' fulfilled';
 
 /*
  * Actions
  * */
-const loadVideoCommentsPending = (isPending) => ({
-  type: LOAD_VIDEO_COMMENTS_PENDING,
+const loadThreadsPending = (isPending) => ({
+  type: LOAD_THREADS_PENDING,
   isPending
 });
 
-const loadVideoCommentsFulfilled = (response) => ({
-  type: LOAD_VIDEO_COMMENTS_FULFILLED,
+const loadThreadsFulfilled = (response) => ({
+  type: LOAD_THREADS_FULFILLED,
   response
 });
 
-const loadVideoComments = (videoId) =>  (dispatch, getState) => {
+const loadThreads = (videoId) =>  (dispatch, getState) => {
   const options = getState().comments.options;
 
-  dispatch(loadVideoCommentsPending(true));
+  dispatch(loadThreadsPending(true));
 
   YoutubeApi.getComments({...options, videoId})
     .then((response) => {
-      dispatch(loadVideoCommentsFulfilled(response));
-      dispatch(loadVideoCommentsPending(false));
+      dispatch(loadThreadsFulfilled(response));
+      dispatch(loadThreadsPending(false));
     })
     .catch((error) => {
-      dispatch(loadVideoCommentsPending(false));
+      dispatch(loadThreadsPending(false));
     })
 };
 
 export const actions = {
-  loadVideoComments
+  loadThreads
 };
 
 /*
@@ -56,13 +56,13 @@ const initialState = {
  * */
 export default (state = initialState, action) => {
   switch (action.type) {
-    case LOAD_VIDEO_COMMENTS_PENDING:
+    case LOAD_THREADS_PENDING:
       return {
         ...state,
         isPending: action.isPending
       };
 
-    case LOAD_VIDEO_COMMENTS_FULFILLED:
+    case LOAD_THREADS_FULFILLED:
       return {
         ...state,
         response: action.response
