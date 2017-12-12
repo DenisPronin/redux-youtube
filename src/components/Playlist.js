@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import PlaylistItem from "./PlaylistItem";
+import NextPageButton from "./NextPageButton";
 
 export default class Playlist extends React.Component {
   static propTypes = {
@@ -29,11 +30,11 @@ export default class Playlist extends React.Component {
             />
           )
         })}
-        {data.nextPageToken &&
-          <button type='button' onClick={this.nextPage}>
-            Next page
-          </button>
-        }
+
+        <NextPageButton
+          nextPageToken={data.nextPageToken}
+          onNextPage={this.nextPage}
+        />
       </div>
     );
   }

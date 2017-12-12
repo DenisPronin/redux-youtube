@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import Comment from "./Comment";
+import NextPageButton from "./NextPageButton";
 
 export default class CommentsThreads extends React.Component {
   static propTypes = {
@@ -36,11 +37,12 @@ export default class CommentsThreads extends React.Component {
             />
           )
         })}
-        {threads.nextPageToken &&
-          <button type='button' onClick={this.nextPage}>
-            Next page
-          </button>
-        }
+
+        <NextPageButton
+          nextPageToken={threads.nextPageToken}
+          onNextPage={this.nextPage}
+        />
+
       </div>
     );
   }
