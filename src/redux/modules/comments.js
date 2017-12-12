@@ -44,12 +44,12 @@ const loadThreads = (videoId) =>  (dispatch, getState) => {
 };
 
 const loadThreadsPagePending = (isPending) => ({
-  type: LOAD_THREADS_PENDING,
+  type: LOAD_THREADS_PAGE_PENDING,
   isPending
 });
 
 const loadThreadsPageFulfilled = (response) => ({
-  type: LOAD_THREADS_FULFILLED,
+  type: LOAD_THREADS_PAGE_FULFILLED,
   response
 });
 
@@ -152,8 +152,7 @@ export default (state = initialState, action) => {
         threads: {
           ...oldResponse,
           items,
-          nextPageToken: newResponse.nextPageToken,
-          prevPageToken: newResponse.prevPageToken
+          nextPageToken: newResponse.nextPageToken
         }
       };
 

@@ -71,9 +71,9 @@ const changeQuery = (value) => ({
   value
 });
 
-const selectVideo = (index) => ({
+const selectVideo = (videoId) => ({
   type: SELECT_VIDEO,
-  index
+  videoId
 });
 
 export const actions = {
@@ -96,7 +96,7 @@ const initialState = {
   },
   isPending: false,
   isPendingNextPage: false,
-  activeIndex: null,
+  activeVideoId: null,
   response: {}
 };
 
@@ -149,7 +149,7 @@ export default (state = initialState, action) => {
     case SELECT_VIDEO:
       return {
         ...state,
-        activeIndex: action.index
+        activeVideoId: action.videoId
       };
 
     default:

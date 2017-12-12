@@ -4,20 +4,16 @@ import YouTube from 'react-youtube';
 
 export default class Video extends React.Component {
   static propTypes = {
-    data: PropTypes.object.isRequired,
-    activeIndex: PropTypes.number
+    videoId: PropTypes.string.isRequired
   };
 
   render() {
-    const { data, activeIndex } = this.props;
-    if (!data.items || !data.items[activeIndex]) return null;
-
-    const videoItem = data.items[activeIndex];
+    const { videoId } = this.props;
 
     return (
       <div>
         <YouTube
-          videoId={videoItem.id.videoId}
+          videoId={videoId}
         />
       </div>
     );

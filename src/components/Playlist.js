@@ -24,7 +24,6 @@ export default class Playlist extends React.Component {
           return (
             <PlaylistItem
               key={`video--${i}`}
-              index={i}
               item={item}
               selectVideo={selectVideo}
             />

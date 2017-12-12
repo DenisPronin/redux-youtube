@@ -34,16 +34,16 @@ class SearchView extends React.Component {
     document.body.appendChild(script);
   }
 
-  selectVideo = (activeIndex) => {
-    const { state, actions } = this.props;
-    const video = state.videos.response.items[activeIndex];
-    actions.selectVideo(activeIndex);
-    actions.loadThreads(video.id.videoId);
+  selectVideo = (videoId) => {
+    const { actions } = this.props;
+    actions.selectVideo(videoId);
+    actions.loadThreads(videoId);
   };
 
   render () {
     const { state, actions } = this.props;
     const { videos, comments } = state;
+    const activeVideoId = videos.activeVideoId;
 
     return (
       <div>
@@ -53,17 +53,20 @@ class SearchView extends React.Component {
           search={actions.loadPlaylist}
         />
 
-        <Video
-          data={videos.response}
-          activeIndex={videos.activeIndex}
-        />
+        {activeVideoId &&
+          <div>
+            <Video
+              videoId={activeVideoId}
+            />
 
-        <CommentsThreads
-          threads={comments.threads}
-          loadThreadComments={actions.loadThreadComments}
-          loadThreadsPage={actions.loadThreadsPage}
-        />
-
+            <CommentsThreads
+              threads={comments.threads}
+              videoId={activeVideoId}
+              loadThreadComments={actions.loadThreadComments}
+              loadThreadsPage={actions.loadThreadsPage}
+            />
+          </div>
+        }
         <Playlist
           data={videos.response}
           selectVideo={this.selectVideo}

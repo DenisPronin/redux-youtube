@@ -5,13 +5,14 @@ import Comment from "./Comment";
 export default class CommentsThreads extends React.Component {
   static propTypes = {
     threads: PropTypes.object.isRequired,
+    videoId: PropTypes.string.isRequired,
     loadThreadComments: PropTypes.func.isRequired,
     loadThreadsPage: PropTypes.func.isRequired
   };
 
   nextPage = () => {
-    const { loadThreadsPage, threads } = this.props;
-    loadThreadsPage(threads.nextPageToken);
+    const { loadThreadsPage, threads, videoId } = this.props;
+    loadThreadsPage(videoId, threads.nextPageToken);
   };
 
   render () {
