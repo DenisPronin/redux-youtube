@@ -8,7 +8,8 @@ export default class CommentsThreads extends React.Component {
     replies: PropTypes.object.isRequired,
     videoId: PropTypes.string.isRequired,
     loadThreadReplies: PropTypes.func.isRequired,
-    loadThreadsPage: PropTypes.func.isRequired
+    loadThreadsPage: PropTypes.func.isRequired,
+    toggleThreadReplies: PropTypes.func.isRequired
   };
 
   nextPage = () => {
@@ -17,7 +18,7 @@ export default class CommentsThreads extends React.Component {
   };
 
   render () {
-    const { threads, replies, loadThreadReplies } = this.props;
+    const { threads, replies, loadThreadReplies, toggleThreadReplies } = this.props;
     if (!threads.items) return null;
 
     return (
@@ -31,6 +32,7 @@ export default class CommentsThreads extends React.Component {
               replies={replies[item.id]}
               isThread
               loadThreadReplies={loadThreadReplies}
+              toggleThreadReplies={toggleThreadReplies}
             />
           )
         })}

@@ -71,6 +71,7 @@ class SearchView extends React.Component {
                 videoId={activeVideoId}
                 loadThreadReplies={actions.loadThreadReplies}
                 loadThreadsPage={actions.loadThreadsPage}
+                toggleThreadReplies={actions.toggleThreadReplies}
               />
             </div>
             }

@@ -14,6 +14,7 @@ const LOAD_THREADS_PAGE_FULFILLED = LOAD_THREADS_PAGE + ' fulfilled';
 const LOAD_THREAD_REPLIES = '@video / get thread replies';
 const LOAD_THREAD_REPLIES_PENDING = LOAD_THREAD_REPLIES + ' pending';
 const LOAD_THREAD_REPLIES_FULFILLED = LOAD_THREAD_REPLIES + ' fulfilled';
+const TOGGLE_THREAD_REPLIES = '@video / toggle thread replies';
 
 /*
  * Actions
@@ -80,6 +81,11 @@ const loadThreadRepliesFulfilled = (threadId, response) => ({
   response
 });
 
+const toggleThreadReplies = (threadId) => ({
+  type: TOGGLE_THREAD_REPLIES,
+  threadId
+});
+
 const loadThreadReplies = (threadId) =>  (dispatch, getState) => {
   const options = getState().comments.options.replies;
 
@@ -98,6 +104,7 @@ const loadThreadReplies = (threadId) =>  (dispatch, getState) => {
 export const actions = {
   loadThreads,
   loadThreadReplies,
+  toggleThreadReplies,
   loadThreadsPage
 };
 
@@ -162,6 +169,9 @@ export default (state = initialState, action) => {
     case LOAD_THREAD_REPLIES_FULFILLED:
       return loadThreadRepliesReducer(state, action);
 
+    case TOGGLE_THREAD_REPLIES:
+      return toggleThreadRepliesReducer(state, action);
+
     default:
       return state;
   }
@@ -174,6 +184,7 @@ const loadThreadRepliesPendingReducer = (state, action) => {
   };
   if (!replies[threadId]) {
     replies[threadId] = {
+      isOpened: false,
       response: {}
     };
   }
@@ -193,6 +204,22 @@ const loadThreadRepliesReducer = (state, action) => {
   replies[threadId] = {
     ...replies[threadId],
     response
+  };
+
+  return {
+    ...state,
+    replies
+  }
+};
+
+const toggleThreadRepliesReducer = (state, action) => {
+  const { threadId } = action;
+  let replies = {
+    ...state.replies
+  };
+  replies[threadId] = {
+    ...replies[threadId],
+    isOpened: !replies[threadId].isOpened
   };
 
   return {
