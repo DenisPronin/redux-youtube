@@ -20,7 +20,7 @@ export default class CommentsThreads extends React.Component {
     if (!threads.items) return null;
 
     return (
-      <div>
+      <div className='comments'>
         {threads.items.map((item, i) => {
           return (
             <Comment

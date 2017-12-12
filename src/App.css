@@ -6,8 +6,33 @@
   margin: 15px;
 }
 
+.page {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-content {
+  display: flex;
+  justify-content: center;
+}
+
+.video-content {
+
+}
+
+.playlist {
+  margin-left: 24px;
+  width: 400px;
+}
+
+.comments {
+  width: 640px;
+}
+
 .searchbar {
   display: flex;
+  margin-bottom: 24px;
   width: 50%;
 }
 
@@ -39,4 +64,29 @@
 .searchbar__submit:hover {
   background-color: #727b84;
   border-color: #6c757d;
+}
+
+/* Playlist item */
+.playlist-item {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.playlist-item__preview {
+  height: 94px;
+  margin-right: 8px;
+}
+
+.playlist-item__title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.playlist-item__channel-title {
+  color: rgba(17, 17, 17, 0.6);
+  font-size: 13px;
+  display: flex;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

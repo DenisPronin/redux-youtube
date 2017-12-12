@@ -28,7 +28,7 @@ const loadThreadsFulfilled = (response) => ({
   response
 });
 
-const loadThreads = (videoId) =>  (dispatch, getState) => {
+export const loadThreads = (videoId) =>  (dispatch, getState) => {
   const options = getState().comments.options.threads;
 
   dispatch(loadThreadsPending(true));

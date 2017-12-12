@@ -37,7 +37,6 @@ class SearchView extends React.Component {
   selectVideo = (videoId) => {
     const { actions } = this.props;
     actions.selectVideo(videoId);
-    actions.loadThreads(videoId);
   };
 
   render () {
@@ -46,32 +45,36 @@ class SearchView extends React.Component {
     const activeVideoId = videos.activeVideoId;
 
     return (
-      <div>
+      <div className='page'>
         <SearchBar
           query={videos.options.q}
           changeQuery={actions.changeQuery}
           search={actions.loadPlaylist}
         />
 
-        {activeVideoId &&
-          <div>
-            <Video
-              videoId={activeVideoId}
-            />
+        <div className='page-content'>
+          {activeVideoId &&
+            <div className='video-content'>
+              <Video
+                videoId={activeVideoId}
+              />
 
-            <CommentsThreads
-              threads={comments.threads}
-              videoId={activeVideoId}
-              loadThreadComments={actions.loadThreadComments}
-              loadThreadsPage={actions.loadThreadsPage}
-            />
-          </div>
-        }
-        <Playlist
-          data={videos.response}
-          selectVideo={this.selectVideo}
-          loadNextPage={actions.loadPlaylistNextPage}
-        />
+              <CommentsThreads
+                threads={comments.threads}
+                videoId={activeVideoId}
+                loadThreadComments={actions.loadThreadComments}
+                loadThreadsPage={actions.loadThreadsPage}
+              />
+            </div>
+          }
+
+          <Playlist
+            data={videos.response}
+            selectVideo={this.selectVideo}
+            loadNextPage={actions.loadPlaylistNextPage}
+          />
+
+        </div>
       </div>
     );
   }

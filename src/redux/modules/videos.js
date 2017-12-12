@@ -1,4 +1,5 @@
 import YoutubeApi from '../../api/youtubeApi'
+import { loadThreads } from './comments'
 /*
  * Constants
  * */
@@ -34,6 +35,14 @@ const loadPlaylist = () =>  (dispatch, getState) => {
   YoutubeApi.search(options)
     .then((response) => {
       dispatch(loadPlaylistFulfilled(response));
+
+      const items = getState().videos.response.items;
+      let firstVideoId = null;
+      if (items.length > 0) {
+        firstVideoId = items[0].id.videoId;
+        dispatch(selectVideo(firstVideoId));
+      }
+
       dispatch(loadPlaylistPending(false));
     })
     .catch((error) => {
@@ -71,10 +80,15 @@ const changeQuery = (value) => ({
   value
 });
 
-const selectVideo = (videoId) => ({
+const _selectVideo = (videoId) => ({
   type: SELECT_VIDEO,
   videoId
 });
+
+const selectVideo = (videoId) =>  (dispatch) => {
+  dispatch(_selectVideo(videoId));
+  dispatch(loadThreads(videoId));
+};
 
 export const actions = {
   loadPlaylist,

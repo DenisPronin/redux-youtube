@@ -14,10 +14,15 @@ export default class PlaylistItem extends React.Component {
 
   render () {
     const { item } = this.props;
+    const snippet = item.snippet;
 
     return (
-      <div onClick={this.selectVideo}>
-        {item.id.videoId}
+      <div className='playlist-item' onClick={this.selectVideo}>
+        <img className='playlist-item__preview' src={snippet.thumbnails.medium.url} alt='' />
+        <div>
+          <div className='playlist-item__title'>{snippet.title}</div>
+          <div className='playlist-item__channel-title'>{snippet.channelTitle}</div>
+        </div>
       </div>
     );
   }

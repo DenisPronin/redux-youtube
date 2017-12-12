@@ -19,7 +19,7 @@ export default class Playlist extends React.Component {
     if (!data.items) return null;
 
     return (
-      <div>
+      <div className='playlist'>
         {data.items.map((item, i) => {
           return (
             <PlaylistItem
