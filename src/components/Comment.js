@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import Spinner from "./Spinner";
 
 export default class Comment extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
+    replies: PropTypes.object,
     isThread: PropTypes.bool.isRequired,
     loadThreadComments: PropTypes.func.isRequired
   };
@@ -12,6 +14,21 @@ export default class Comment extends React.Component {
     const { item, loadThreadComments } = this.props;
     loadThreadComments(item.id);
   };
+
+  getReplies () {
+    const { replies } = this.props;
+    if (!replies) return null;
+
+    if (replies.isPending) {
+      return (
+        <Spinner size='2x' />
+      )
+    }
+
+    if (replies.response.items.length > 0) {
+      return <div>hasitems</div>
+    }
+  }
 
   render () {
     const { item, isThread } = this.props;
@@ -30,6 +47,8 @@ export default class Comment extends React.Component {
               <i className='fa fa-angle-down' />
             </button>
           }
+
+          {this.getReplies()}
         </div>
       </div>
     );
