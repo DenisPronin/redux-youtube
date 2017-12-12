@@ -5,9 +5,9 @@ import Comment from "./Comment";
 export default class CommentsThreads extends React.Component {
   static propTypes = {
     threads: PropTypes.object.isRequired,
-    comments: PropTypes.object.isRequired,
+    replies: PropTypes.object.isRequired,
     videoId: PropTypes.string.isRequired,
-    loadThreadComments: PropTypes.func.isRequired,
+    loadThreadReplies: PropTypes.func.isRequired,
     loadThreadsPage: PropTypes.func.isRequired
   };
 
@@ -17,7 +17,7 @@ export default class CommentsThreads extends React.Component {
   };
 
   render () {
-    const { threads, comments, loadThreadComments } = this.props;
+    const { threads, replies, loadThreadReplies } = this.props;
     if (!threads.items) return null;
 
     return (
@@ -26,10 +26,11 @@ export default class CommentsThreads extends React.Component {
           return (
             <Comment
               key={`comment-thread--${i}`}
-              item={item}
-              replies={comments[item.id]}
+              itemId={item.id}
+              snippet={item.snippet.topLevelComment.snippet}
+              replies={replies[item.id]}
               isThread
-              loadThreadComments={loadThreadComments}
+              loadThreadReplies={loadThreadReplies}
             />
           )
         })}

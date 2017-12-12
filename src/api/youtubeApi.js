@@ -15,7 +15,7 @@ export default {
     }).then((response) => response.result);
   },
 
-  getThreadComments (params) {
+  getThreadReplies (params) {
     return window.gapi.client.request({
       method: 'GET',
       path: '/youtube/v3/comments',

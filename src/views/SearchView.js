@@ -67,9 +67,9 @@ class SearchView extends React.Component {
 
               <CommentsThreads
                 threads={comments.threads}
-                comments={comments.comments}
+                replies={comments.replies}
                 videoId={activeVideoId}
-                loadThreadComments={actions.loadThreadComments}
+                loadThreadReplies={actions.loadThreadReplies}
                 loadThreadsPage={actions.loadThreadsPage}
               />
             </div>

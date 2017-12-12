@@ -11,9 +11,9 @@ const LOAD_THREADS_PAGE = '@video / get threads page';
 const LOAD_THREADS_PAGE_PENDING = LOAD_THREADS_PAGE + ' pending';
 const LOAD_THREADS_PAGE_FULFILLED = LOAD_THREADS_PAGE + ' fulfilled';
 
-const LOAD_THREAD_COMMENTS = '@video / get thread comments';
-const LOAD_THREAD_COMMENTS_PENDING = LOAD_THREAD_COMMENTS + ' pending';
-const LOAD_THREAD_COMMENTS_FULFILLED = LOAD_THREAD_COMMENTS + ' fulfilled';
+const LOAD_THREAD_REPLIES = '@video / get thread replies';
+const LOAD_THREAD_REPLIES_PENDING = LOAD_THREAD_REPLIES + ' pending';
+const LOAD_THREAD_REPLIES_FULFILLED = LOAD_THREAD_REPLIES + ' fulfilled';
 
 /*
  * Actions
@@ -68,36 +68,36 @@ const loadThreadsPage = (videoId, pageToken) =>  (dispatch, getState) => {
     })
 };
 
-const loadThreadCommentsPending = (threadId, isPending) => ({
-  type: LOAD_THREAD_COMMENTS_PENDING,
+const loadThreadRepliesPending = (threadId, isPending) => ({
+  type: LOAD_THREAD_REPLIES_PENDING,
   threadId,
   isPending
 });
 
-const loadThreadCommentsFulfilled = (threadId, response) => ({
-  type: LOAD_THREAD_COMMENTS_FULFILLED,
+const loadThreadRepliesFulfilled = (threadId, response) => ({
+  type: LOAD_THREAD_REPLIES_FULFILLED,
   threadId,
   response
 });
 
-const loadThreadComments = (threadId) =>  (dispatch, getState) => {
-  const options = getState().comments.options.comments;
+const loadThreadReplies = (threadId) =>  (dispatch, getState) => {
+  const options = getState().comments.options.replies;
 
-  dispatch(loadThreadCommentsPending(threadId, true));
+  dispatch(loadThreadRepliesPending(threadId, true));
 
-  YoutubeApi.getThreadComments({...options, parentId: threadId})
+  YoutubeApi.getThreadReplies({...options, parentId: threadId})
     .then((response) => {
-      dispatch(loadThreadCommentsFulfilled(threadId, response));
-      dispatch(loadThreadCommentsPending(threadId, false));
+      dispatch(loadThreadRepliesFulfilled(threadId, response));
+      dispatch(loadThreadRepliesPending(threadId, false));
     })
     .catch((error) => {
-      dispatch(loadThreadCommentsPending(threadId, false));
+      dispatch(loadThreadRepliesPending(threadId, false));
     })
 };
 
 export const actions = {
   loadThreads,
-  loadThreadComments,
+  loadThreadReplies,
   loadThreadsPage
 };
 
@@ -110,14 +110,14 @@ const initialState = {
       part: 'snippet,replies',
       order: 'relevance'
     },
-    comments: {
+    replies: {
       part: 'snippet'
     }
   },
   isPending: '',
   isPendingPage: false,
   threads: {},
-  comments: {}
+  replies: {}
 };
 
 /*
@@ -156,47 +156,47 @@ export default (state = initialState, action) => {
         }
       };
 
-    case LOAD_THREAD_COMMENTS_PENDING:
-      return loadThreadCommentsPendingReducer(state, action);
+    case LOAD_THREAD_REPLIES_PENDING:
+      return loadThreadRepliesPendingReducer(state, action);
 
-    case LOAD_THREAD_COMMENTS_FULFILLED:
-      return loadThreadCommentsReducer(state, action);
+    case LOAD_THREAD_REPLIES_FULFILLED:
+      return loadThreadRepliesReducer(state, action);
 
     default:
       return state;
   }
 }
 
-const loadThreadCommentsPendingReducer = (state, action) => {
+const loadThreadRepliesPendingReducer = (state, action) => {
   const { threadId, isPending } = action;
-  let comments = {
-    ...state.comments
+  let replies = {
+    ...state.replies
   };
-  if (!comments[threadId]) {
-    comments[threadId] = {
+  if (!replies[threadId]) {
+    replies[threadId] = {
       response: {}
     };
   }
-  comments[threadId].isPending = isPending;
+  replies[threadId].isPending = isPending;
 
   return {
     ...state,
-    comments
+    replies
   };
 };
 
-const loadThreadCommentsReducer = (state, action) => {
+const loadThreadRepliesReducer = (state, action) => {
   const { threadId, response } = action;
-  let comments = {
-    ...state.comments
+  let replies = {
+    ...state.replies
   };
-  comments[threadId] = {
-    ...comments[threadId],
+  replies[threadId] = {
+    ...replies[threadId],
     response
   };
 
   return {
     ...state,
-    comments
+    replies
   }
 };

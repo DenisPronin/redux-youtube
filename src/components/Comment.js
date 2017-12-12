@@ -4,15 +4,16 @@ import Spinner from "./Spinner";
 
 export default class Comment extends React.Component {
   static propTypes = {
-    item: PropTypes.object.isRequired,
+    itemId: PropTypes.string.isRequired,
+    snippet: PropTypes.object.isRequired,
     replies: PropTypes.object,
     isThread: PropTypes.bool.isRequired,
-    loadThreadComments: PropTypes.func.isRequired
+    loadThreadReplies: PropTypes.func
   };
 
   loadComments = () => {
-    const { item, loadThreadComments } = this.props;
-    loadThreadComments(item.id);
+    const { itemId, loadThreadReplies } = this.props;
+    loadThreadReplies(itemId);
   };
 
   getReplies () {
@@ -26,13 +27,26 @@ export default class Comment extends React.Component {
     }
 
     if (replies.response.items.length > 0) {
-      return <div>hasitems</div>
+      return (
+        <div className='comments'>
+          {replies.response.items.map((item, i) => {
+            return (
+              <Comment
+                key={`comment-reply--${i}`}
+                itemId={item.id}
+                snippet={item.snippet}
+                replies={null}
+                isThread={false}
+              />
+            )
+          })}
+        </div>
+      )
     }
   }
 
   render () {
-    const { item, isThread } = this.props;
-    const snippet = item.snippet.topLevelComment.snippet;
+    const { snippet, isThread } = this.props;
 
     return (
       <div className='comment'>
