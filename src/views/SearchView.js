@@ -59,7 +59,9 @@ class SearchView extends React.Component {
         />
 
         <CommentsThreads
-          threads={comments.response}
+          threads={comments.threads}
+          loadThreadComments={actions.loadThreadComments}
+          loadThreadsPage={actions.loadThreadsPage}
         />
 
         <Playlist
