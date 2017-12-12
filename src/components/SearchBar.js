@@ -16,13 +16,29 @@ export default class SearchBar extends React.Component {
     this.props.search();
   };
 
+  onEnterPress = (event) => {
+    if (event.key === 'Enter') {
+      this.onSearch();
+    }
+  };
+
   render () {
     const { query } = this.props;
 
     return (
-      <div>
-        <input type="text" value={query} onChange={this.onChangeQuery}/>
-        <button type='button' onClick={this.onSearch}>Search</button>
+      <div className='searchbar'>
+        <input
+          className='searchbar__input'
+          placeholder='Search'
+          type="text"
+          value={query}
+          onKeyPress={this.onEnterPress}
+          onChange={this.onChangeQuery}
+        />
+        <button type='button' className='searchbar__submit' onClick={this.onSearch}>
+          <i className='fa fa-search' />
+        </button>
+
       </div>
     );
   }
