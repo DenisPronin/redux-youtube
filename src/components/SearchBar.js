@@ -38,7 +38,6 @@ export default class SearchBar extends React.Component {
         <button type='button' className='searchbar__submit' onClick={this.onSearch}>
           <i className='fa fa-search' />
         </button>
-
       </div>
     );
   }

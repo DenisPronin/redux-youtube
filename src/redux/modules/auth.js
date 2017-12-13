@@ -6,11 +6,22 @@
  * Actions
  * */
 const initGoogleApiClient = () => (dispatch, getState) => {
-  const {apiKey, clientId} = getState().common.auth;
-  return window.gapi.client.init({
-    apiKey,
-    clientId,
-    scope: 'https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtubepartner'
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = "https://apis.google.com/js/api.js";
+
+    script.onload = () => {
+      window.gapi.load('client', () => {
+        const {apiKey, clientId} = getState().common.auth;
+        window.gapi.client.init({
+          apiKey,
+          clientId,
+          scope: 'https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtubepartner'
+        }).then(() => resolve())
+      });
+    };
+
+    document.body.appendChild(script);
   });
 };
 

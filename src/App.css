@@ -93,6 +93,7 @@
   white-space: nowrap;
 }
 
+/* Comments */
 .comment {
   display: flex;
   margin-bottom: 16px;
