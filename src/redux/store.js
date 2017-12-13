@@ -6,12 +6,8 @@ const initialState = {};
 const middleware = [thunk];
 let enhancers = [];
 
-if (process.env.NODE_ENV === 'development') {
-  const devToolsExtension = window.devToolsExtension;
-
-  if (typeof devToolsExtension === 'function') {
-    enhancers.push(devToolsExtension())
-  }
+if (typeof window.devToolsExtension === 'function') {
+  enhancers.push(window.devToolsExtension())
 }
 
 const composedEnhancers = compose(

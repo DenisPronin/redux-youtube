@@ -16,23 +16,10 @@ class SearchView extends React.Component {
   };
 
   componentWillMount () {
-    this.loadYoutubeApi();
-  }
-
-  loadYoutubeApi() {
     const { actions } = this.props;
-    const script = document.createElement("script");
-    script.src = "https://apis.google.com/js/api.js";
-
-    script.onload = () => {
-      window.gapi.load('client', () => {
-        actions.initGoogleApiClient().then(() => {
-          actions.loadPlaylist();
-        });
-      });
-    };
-
-    document.body.appendChild(script);
+    actions.initGoogleApiClient().then(() => {
+      actions.loadPlaylist();
+    });
   }
 
   selectVideo = (videoId) => {
@@ -60,20 +47,20 @@ class SearchView extends React.Component {
         {!videos.isPending &&
           <div className='page-content'>
             {activeVideoId &&
-            <div className='video-content'>
-              <Video
-                videoId={activeVideoId}
-              />
+              <div className='video-content'>
+                <Video
+                  videoId={activeVideoId}
+                />
 
-              <CommentsThreads
-                threads={comments.threads}
-                replies={comments.replies}
-                videoId={activeVideoId}
-                loadThreadReplies={actions.loadThreadReplies}
-                loadThreadsPage={actions.loadThreadsPage}
-                toggleThreadReplies={actions.toggleThreadReplies}
-              />
-            </div>
+                <CommentsThreads
+                  threads={comments.threads}
+                  replies={comments.replies}
+                  videoId={activeVideoId}
+                  loadThreadReplies={actions.loadThreadReplies}
+                  loadThreadsPage={actions.loadThreadsPage}
+                  toggleThreadReplies={actions.toggleThreadReplies}
+                />
+              </div>
             }
 
             <Playlist
