@@ -2,7 +2,9 @@
   "name": "redux-youtube",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://denispronin.github.io/redux-youtube",
   "dependencies": {
+    "gh-pages": "^1.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -13,6 +15,8 @@
     "redux-thunk": "^2.2.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "./node_modules/.bin/gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
